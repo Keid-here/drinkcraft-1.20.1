@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "drinkcraft",
+	"version": "${version}",
+	"name": "Drinkcraft",
+	"description": "we love drinking and spinning wheels",
+	"authors": [
+		"Keid :3"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/drinkcraft/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.keid.drinkcraft.Drinkcraft"
+		],
+		"client": [
+			"com.keid.drinkcraft.DrinkcraftClient"
+		],
+		"fabric-datagen": [
+			"com.keid.drinkcraft.DrinkcraftDataGenerator"
+		]
+	},
+	"mixins": [
+		"drinkcraft.mixins.json",
+		{
+			"config": "drinkcraft.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
