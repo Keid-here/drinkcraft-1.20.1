@@ -1,0 +1,158 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+
+    <components>
+        <flow-layout direction="horizontal">
+            <children>
+                <label>
+                    <text>Action Menu</text>
+                    <shadow>true</shadow>
+
+                    <positioning type="relative">50,5</positioning>
+                </label>
+
+                <flow-layout direction="horizontal" id="right box">
+                    <children>
+                        <label id="left box">
+                            <text>From this menu you can do various things</text>
+                            <max-width>200</max-width>
+
+                            <margins>
+                                <all>15</all>
+                            </margins>
+                        </label>
+                        <flow-layout direction="horizontal">
+                            <children>
+                                <flow-layout direction="vertical" id="box-container">
+                                    <children>
+                                        <box id="the-box">
+                                            <start-color>#FF00D7FF</start-color>
+                                            <end-color>#FF5800FF</end-color>
+                                            <fill>true</fill>
+                                            <direction>top-to-bottom</direction>
+
+                                            <sizing>
+                                                <vertical method="fixed">50</vertical>
+                                                <horizontal method="fixed">50</horizontal>
+                                            </sizing>
+                                        </box>
+
+                                        <flow-layout direction="vertical">
+                                            <children>
+                                                <label>
+                                                    <text>Vertical&#10;Flow</text>
+                                                    <shadow>true</shadow>
+                                                    <horizontal-text-alignment>center</horizontal-text-alignment>
+                                                </label>
+                                            </children>
+
+                                            <padding>
+                                                <all>3</all>
+                                            </padding>
+
+                                            <surface>
+                                                <flat>#77000000</flat>
+                                            </surface>
+                                        </flow-layout>
+                                    </children>
+
+                                    <surface>
+                                        <flat>#77000000</flat>
+                                        <outline>#FF121212</outline>
+                                    </surface>
+
+                                    <padding>
+                                        <all>1</all>
+                                    </padding>
+
+                                    <sizing>
+                                        <vertical method="fixed">100</vertical>
+                                        <horizontal method="fixed">150</horizontal>
+                                    </sizing>
+                                </flow-layout>
+
+                            </children>
+                        </flow-layout>
+                    </children>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <surface>
+                        <panel dark="true"/>
+                    </surface>
+                </flow-layout>
+
+                <flow-layout direction="horizontal">
+                    <children>
+                        <button id="inspector-button">
+                            <text>⚡ Inspector</text>
+                        </button>
+
+                        <box>
+                            <color>#FF696969</color>
+                            <sizing>
+                                <vertical method="fixed">16</vertical>
+                                <horizontal method="fixed">1</horizontal>
+                            </sizing>
+                            <margins>
+                                <horizontal>5</horizontal>
+                            </margins>
+                        </box>
+
+                        <button id="previous-button">
+                            <text>⏴ Previous</text>
+                            <margins>
+                                <right>2</right>
+                            </margins>
+                        </button>
+                        <button id="next-button">
+                            <text>Done</text>
+                        </button>
+                    </children>
+
+                    <positioning type="relative">50,100</positioning>
+
+                    <vertical-alignment>center</vertical-alignment>
+
+                    <surface>
+                        <panel dark="true"/>
+                    </surface>
+
+                    <padding>
+                        <all>6</all>
+                    </padding>
+
+                    <margins>
+                        <bottom>15</bottom>
+                    </margins>
+
+                </flow-layout>
+            </children>
+
+            <vertical-alignment>center</vertical-alignment>
+            <horizontal-alignment>center</horizontal-alignment>
+
+            <surface>
+                <flat>#C0101010</flat>
+            </surface>
+
+
+        </flow-layout>
+    </components>
+
+    <templates>
+        <the-box>
+            <box>
+                <start-color>#FF{{start-color}}</start-color>
+                <end-color>#FF{{end-color}}</end-color>
+                <fill>true</fill>
+                <direction>top-to-bottom</direction>
+
+                <sizing>
+                    <vertical method="fixed">{{size}}</vertical>
+                    <horizontal method="fixed">{{size}}</horizontal>
+                </sizing>
+            </box>
+        </the-box>
+    </templates>
+
+</owo-ui>
