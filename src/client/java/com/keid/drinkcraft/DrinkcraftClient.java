@@ -1,6 +1,11 @@
 package com.keid.drinkcraft;
 
 import com.keid.drinkcraft.networking.ModMessages;
+import com.keid.drinkcraft.networking.ModMessagesClient;
+import io.wispforest.owo.ui.component.Components;
+import io.wispforest.owo.ui.container.Containers;
+import io.wispforest.owo.ui.core.*;
+import io.wispforest.owo.ui.hud.Hud;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -9,6 +14,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 
@@ -21,6 +28,12 @@ public class DrinkcraftClient implements ClientModInitializer {
 			GLFW.GLFW_KEY_K, // The keycode of the key
 			"category.drinkcraft.gui_cat" // The translation key of the keybinding's category.
 	));
+	KeyBinding binding2 = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+			"key.drinkcraft.HUD", // The translation key of the keybinding's name
+			InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+			GLFW.GLFW_KEY_I, // The keycode of the key
+			"category.drinkcraft.gui_cat" // The translation key of the keybinding's category.
+	));
 
 	public static PlayerData playerData = new PlayerData();
 
@@ -29,15 +42,26 @@ public class DrinkcraftClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 
-		//Keybinding opens GUI
+		//Keybindings
+		//
+		// opens GUI
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			while (binding1.wasPressed()) {
 					MinecraftClient.getInstance().setScreen(new MainScreen());
 					//System.out.println(KeyBindingHelper.getBoundKeyOf(binding1));
 			}
 		});
+		// HUD toggle
+		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
+			while (binding2.wasPressed()) {
+				//toggle here
+			}
+		});
 
-		//ModMessages.registerS2CMessages();
+
+
+		//lets us receive packets from server
+		ModMessagesClient.registerS2CMessages();
 
 		ClientPlayNetworking.registerGlobalReceiver(Drinkcraft.DIRT_BROKEN, (client, handler, buf, responseSender) -> {
 			int totalDirtBlocksBroken = buf.readInt();
@@ -69,7 +93,6 @@ public class DrinkcraftClient implements ClientModInitializer {
 				client.player.sendMessage(Text.literal("Sips left: " + playerData.sipsPending));
 			});
 		});
-
 
 	}
 }

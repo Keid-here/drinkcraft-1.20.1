@@ -46,6 +46,6 @@ public class SipsHelper {
     public static void syncSips(int sips, ServerPlayerEntity player) {
         PacketByteBuf buffer = PacketByteBufs.create();
         buffer.writeInt(sips);
-        ServerPlayNetworking.send(player, SIPSSYNC, PacketByteBufs.create());
+        ServerPlayNetworking.send(player, SIPSSYNC, buffer);
     }
 }

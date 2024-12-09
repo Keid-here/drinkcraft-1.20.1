@@ -1,9 +1,6 @@
 package com.keid.drinkcraft.networking;
 
-import com.keid.drinkcraft.networking.packet.ExampleC2SPacket;
-import com.keid.drinkcraft.networking.packet.RandomDistroC2SPacket;
-import com.keid.drinkcraft.networking.packet.SipsC2SPacket;
-import com.keid.drinkcraft.networking.packet.SipsDecC2SPacket;
+import com.keid.drinkcraft.networking.packet.*;
 import com.keid.drinkcraft.networking.packet.RandomDistroC2SPacket;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -21,5 +18,6 @@ public class ModMessages {
         ServerPlayNetworking.registerGlobalReceiver(SIPS, SipsC2SPacket::receive);
         ServerPlayNetworking.registerGlobalReceiver(SIPSDEC, SipsDecC2SPacket::receive);
         ServerPlayNetworking.registerGlobalReceiver(RANDOMDIISTRO, RandomDistroC2SPacket::receive);
+        ServerPlayNetworking.registerGlobalReceiver(SIPSSYNC, SipsSyncC2SPacket::receive);
     }
 }

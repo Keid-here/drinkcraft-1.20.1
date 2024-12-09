@@ -2,6 +2,8 @@ package com.keid.drinkcraft.server;
 
 
 import com.keid.drinkcraft.networking.ModMessages;
+import com.keid.drinkcraft.util.IEntityDataSaver;
+import com.keid.drinkcraft.util.SipsHelper;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -51,6 +53,6 @@ public class RandomDistributor {
 
     //send sips Package
     public static void sendSips(ServerPlayerEntity player, int sips) {
-        ServerPlayNetworking.send(player, SIPS, PacketByteBufs.create());
+        SipsHelper.addSips(((IEntityDataSaver) player), sips);
     }
 }
