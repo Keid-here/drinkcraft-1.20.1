@@ -4,8 +4,10 @@ import com.keid.drinkcraft.events.PlayerPickupItemCallback;
 import com.keid.drinkcraft.networking.ModMessages;
 import com.keid.drinkcraft.server.RandomDistributor;
 import com.keid.drinkcraft.util.Drinkcraft_Config;
+import com.keid.drinkcraft.util.IEntityDataSaver;
 import com.keid.drinkcraft.util.SipsHelper;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -84,6 +86,24 @@ public class Drinkcraft implements ModInitializer {
 							});
 						}
 					});
+
+		//on Player death
+		ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
+			if(entity instanceof PlayerEntity) {
+				int sips = CONFIG.sips_on_Death();
+
+				PlayerEntity player = (PlayerEntity) entity;
+
+				PlayerManager playerManager = server.getPlayerManager();
+				playerManager.broadcast(Text.literal(player.getEntityName() + " died").formatted(Formatting.DARK_RED), false);
+
+				ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
+				server.execute(() -> {
+					SipsHelper.addSips((IEntityDataSaver) player, sips);
+				});
+			}
+		});
+
 
 
 

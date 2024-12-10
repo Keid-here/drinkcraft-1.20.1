@@ -1,7 +1,9 @@
 package com.keid.drinkcraft.util;
 
+import io.wispforest.owo.config.annotation.Config;
 import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -11,7 +13,11 @@ import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 
+import java.util.Collection;
+
+import static com.keid.drinkcraft.Drinkcraft.CONFIG;
 import static com.keid.drinkcraft.networking.ModMessages.SIPS;
 import static com.keid.drinkcraft.networking.ModMessages.SIPSSYNC;
 
@@ -19,7 +25,7 @@ public class SipsHelper {
     public static int addSips(IEntityDataSaver player, int amount) {
         NbtCompound nbt = player.getPersistentData();
         int sips = nbt.getInt("sips");
-        if(sips + amount >= 30) {
+        if(sips + amount >= CONFIG.max_Sips_per_Player()) {
             sips = 30;
         } else {
             sips += amount;
@@ -93,5 +99,18 @@ public class SipsHelper {
         NbtCompound nbt = player.getPersistentData();
         nbt.putInt("sipsTotal", 0);
         syncTotalSipsSender(0, (ServerPlayerEntity) player);
+    }
+
+    public static void addAllSips(MinecraftServer server, int amount) {
+
+        Collection<ServerPlayerEntity> allPlayersCollection = PlayerLookup.all(server);
+
+        for (ServerPlayerEntity item : allPlayersCollection) {
+            addSips((IEntityDataSaver) item, amount);
+        }
+
+        PlayerManager playerManager = server.getPlayerManager();
+        playerManager.broadcast(Text.literal("added " + amount + " sips to everyone").formatted(Formatting.RED), false);
+
     }
 }
