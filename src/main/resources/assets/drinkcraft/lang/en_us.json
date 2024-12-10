@@ -1,5 +1,7 @@
 {
   "key.drinkcraft.GUI": "open UI",
   "key.drinkcraft.HUD": "Toggle HUD",
-  "category.drinkcraft.gui_cat": "Drink Craft"
+  "key.drinkcraft.drink": "drink a sip",
+  "category.drinkcraft.gui_cat": "Drink Craft",
+  "text.config.drinkcraft_config.option.sipsPerDiamond": "Sips per diamond ore broken"
 }

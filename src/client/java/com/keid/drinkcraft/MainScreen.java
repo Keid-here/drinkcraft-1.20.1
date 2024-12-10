@@ -19,6 +19,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
+import javax.swing.text.html.parser.Entity;
+
+import static com.keid.drinkcraft.DrinkcraftClient.sipsInt;
+import static com.keid.drinkcraft.DrinkcraftClient.sipsTotal;
+
 
 public class MainScreen extends BaseUIModelScreen<FlowLayout> {
 
@@ -51,22 +56,29 @@ public class MainScreen extends BaseUIModelScreen<FlowLayout> {
             ClientPlayNetworking.send(ModMessages.RANDOMDIISTRO, sips);
         });
 
+        rootComponent.childById(ButtonComponent.class, "totalSipsReset").onPress(button -> {
+            ClientPlayNetworking.send(ModMessages.TOTALSIPSRESET, PacketByteBufs.create());
+        });
+
+
         rootComponent.childById(LabelComponent.class, "sipsCounter").text(Text.empty()
-                .append(Text.literal("Sips left to drink: "+ (((IEntityDataSaver) MinecraftClient.getInstance().player).getPersistentData().getInt("sips")))));
+                .append(Text.literal("Sips left to drink: "))
+                .append(String.valueOf(sipsInt))
+        );
+
+        rootComponent.childById(LabelComponent.class, "totalSipsCounter").text(Text.empty()
+                .append(Text.literal("total sips: "))
+                .append(String.valueOf(sipsTotal))
+        );
+
+        //.text(Text.empty()
+        //      .append(Text.literal("Sips left to drink: "+ (((IEntityDataSaver) MinecraftClient.getInstance().player).getPersistentData().getInt("sips")))));
 
 
         rootComponent.childById(ButtonComponent.class, "next_menu").onPress(button -> this.client.setScreen(new GiveScreen(this)));
-
-
-        /*var binding1 = KeyBindingHelper.getBoundKeyOf()
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (KeyBinding. wasPressed()) {
-                MinecraftClient.getInstance().setScreen(new MainScreen());
-            }
-        }); */
-
-
     }
+
+    //public static void updateSips
+
 
 }

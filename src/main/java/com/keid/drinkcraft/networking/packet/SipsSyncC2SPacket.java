@@ -8,16 +8,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+import static com.keid.drinkcraft.util.SipsHelper.returnSync;
+
 
 public class SipsSyncC2SPacket {
 
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-
-        ((IEntityDataSaver) player).getPersistentData().putInt("sips", buf.readInt());
-
-        int sips = buf.readInt();
-
-        SipsHelper.syncSips(sips, player);
+        returnSync(((IEntityDataSaver) player));
 
     }
 }

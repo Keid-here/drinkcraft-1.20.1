@@ -3,45 +3,56 @@
     <components>
         <flow-layout direction="vertical">
             <children> <!---->
-                    <flow-layout direction="vertical"><!---->
+                <flow-layout direction="vertical"><!---->
                     <children>
 
                         <label id="sipsCounter">
                             <text>O</text>
                             <margins>
-                                <all>15</all>
+                                <all>10</all>
+                            </margins>
+                        </label>
+                        <label id="totalSipsCounter">
+                            <text>xD</text>
+                            <margins>
+                                <all>10</all>
                             </margins>
                         </label>
                         <button id="the-button">
                             <z-index>1</z-index><!---->
                             <text>Add Sip</text>
                             <margins>
-                                <all>15</all>
+                                <all>10</all>
                             </margins><!---->
                         </button>
                         <button id="Sip_Drinking_B">
-                            <text> Drink Sip </text>
+                            <text>Drink Sip</text>
                             <margins>
-                                <all>15</all>
+                                <all>10</all>
                             </margins><!---->
                         </button>
                         <button id="Sip_Drinking_R">
-                            <text> Random tester </text>
+                            <text>Random tester</text>
                             <margins>
-                                <all>15</all>
+                                <all>10</all>
+                            </margins><!---->
+                        </button>
+                        <button id="totalSipsReset">
+                            <text>Reset total sips</text>
+                            <margins>
+                                <all>10</all>
                             </margins><!---->
                         </button>
                         <button id="next_menu">
-                            <text> next </text>
+                            <text>next</text>
                             <margins>
-                                <all>15</all>
+                                <all>10</all>
                             </margins><!---->
                         </button>
                     </children>
 
                     <horizontal-alignment>center</horizontal-alignment>
                     <vertical-alignment>center</vertical-alignment>
-
 
 
                     <!---->

@@ -2,6 +2,7 @@ package com.keid.drinkcraft;
 
 import com.keid.drinkcraft.networking.ModMessages;
 import com.keid.drinkcraft.networking.ModMessagesClient;
+import com.keid.drinkcraft.util.IEntityDataSaver;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.core.*;
@@ -10,16 +11,26 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import static com.keid.drinkcraft.Drinkcraft.MOD_ID;
+import static com.keid.drinkcraft.Drinkcraft.world;
+
 
 public class DrinkcraftClient implements ClientModInitializer {
+
+	public static final String MOD_ID = "drinkcraft";
+	public static Identifier HUD = new Identifier("drinkcraft", "hud");
 
 	//Keybindings
 	KeyBinding binding1 = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -34,8 +45,18 @@ public class DrinkcraftClient implements ClientModInitializer {
 			GLFW.GLFW_KEY_I, // The keycode of the key
 			"category.drinkcraft.gui_cat" // The translation key of the keybinding's category.
 	));
+	KeyBinding binding3 = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+			"key.drinkcraft.drink", // The translation key of the keybinding's name
+			InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+			GLFW.GLFW_KEY_U, // The keycode of the key
+			"category.drinkcraft.gui_cat" // The translation key of the keybinding's category.
+	));
 
 	public static PlayerData playerData = new PlayerData();
+	public static int sipsInt;
+	public static int sipsTotal;
+	public static boolean hudToggle = false;
+
 
 
 	@Override
@@ -54,7 +75,24 @@ public class DrinkcraftClient implements ClientModInitializer {
 		// HUD toggle
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			while (binding2.wasPressed()) {
-				//toggle here
+				if (hudToggle == false){
+					hudToggle = true;
+					ClientPlayNetworking.send(ModMessages.SIPSSYNC, PacketByteBufs.create());
+					client.player.sendMessage(Text.literal("HUD toggled on"), false);
+				}else {
+					hudToggle = false;
+					ClientPlayNetworking.send(ModMessages.SIPSSYNC, PacketByteBufs.create());
+					client.player.sendMessage(Text.literal("HUD toggled off"), false);
+					Hud.remove(HUD);
+				}
+			}
+		});
+		// Dirk a sip
+		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
+			while (binding3.wasPressed()) {
+				ClientPlayNetworking.send(ModMessages.SIPSDEC, PacketByteBufs.create());
+				world.playSound(null, MinecraftClient.getInstance().player.getBlockPos(), SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.PLAYERS,
+						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		});
 
@@ -62,6 +100,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 
 		//lets us receive packets from server
 		ModMessagesClient.registerS2CMessages();
+
 
 		ClientPlayNetworking.registerGlobalReceiver(Drinkcraft.DIRT_BROKEN, (client, handler, buf, responseSender) -> {
 			int totalDirtBlocksBroken = buf.readInt();
@@ -93,6 +132,8 @@ public class DrinkcraftClient implements ClientModInitializer {
 				client.player.sendMessage(Text.literal("Sips left: " + playerData.sipsPending));
 			});
 		});
+
+
 
 	}
 }

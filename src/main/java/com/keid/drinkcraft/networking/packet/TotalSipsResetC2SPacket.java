@@ -11,21 +11,14 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class SipsC2SPacket {
-    // Everything here happens ONLY on the Server!
+public class TotalSipsResetC2SPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         // Everything here happens ONLY on the Server!
-        System.out.println("SipsC2SPacket received");
+        System.out.println("TotalSipsResetC2SPacket received");
 
-        SipsHelper.addSips(((IEntityDataSaver) player), 1);
+        SipsHelper.totalSipsReset(((IEntityDataSaver) player));
 
         // outputting the current thirst level of player
-        // todo remove when better way to display sips exsits
-
-        /*
-        player.sendMessage(Text.literal("Sips: " + ((IEntityDataSaver) player).getPersistentData().getInt("sips"))
-                .fillStyle(Style.EMPTY.withColor(Formatting.AQUA)), true);
-
-         */
+        player.sendMessage(Text.literal("Total Sip Counter reset" ), true);
     }
 }

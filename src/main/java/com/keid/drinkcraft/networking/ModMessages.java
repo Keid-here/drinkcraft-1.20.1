@@ -12,6 +12,7 @@ public class ModMessages {
     public static final Identifier SIPSDEC  = new Identifier("sipsdec");
     public static final Identifier SIPSSYNC = new Identifier("sipssync");
     public static final Identifier RANDOMDIISTRO = new Identifier("randomdistro");
+    public static final Identifier TOTALSIPSRESET = new Identifier("totalsipsreset");
 
     public static void registerC2SMessages() {
         ServerPlayNetworking.registerGlobalReceiver(EXAMPLE_ID, ExampleC2SPacket::receive);
@@ -19,5 +20,6 @@ public class ModMessages {
         ServerPlayNetworking.registerGlobalReceiver(SIPSDEC, SipsDecC2SPacket::receive);
         ServerPlayNetworking.registerGlobalReceiver(RANDOMDIISTRO, RandomDistroC2SPacket::receive);
         ServerPlayNetworking.registerGlobalReceiver(SIPSSYNC, SipsSyncC2SPacket::receive);
+        ServerPlayNetworking.registerGlobalReceiver(TOTALSIPSRESET, SipsSyncC2SPacket::receive);
     }
 }

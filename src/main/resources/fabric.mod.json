@@ -3,13 +3,13 @@
 	"id": "drinkcraft",
 	"version": "${version}",
 	"name": "Drinkcraft",
-	"description": "we love drinking and spinning wheels",
+	"description": "very early in development, nothing works sorry",
 	"authors": [
 		"Keid :3"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://cdn.betterttv.net/emote/645ec010d25028744b15a0cc/3x.webp",
+		"sources": "https://github.com/Keid-here/drinkcraft-1.20.1"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/drinkcraft/icon.png",
@@ -36,7 +36,8 @@
 		"fabricloader": ">=0.16.9",
 		"minecraft": "~1.20.1",
 		"java": ">=17",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"owo-lib": "*"
 	},
 	"suggests": {
 		"another-mod": "*"
