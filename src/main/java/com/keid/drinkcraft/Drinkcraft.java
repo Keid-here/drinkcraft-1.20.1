@@ -1,34 +1,29 @@
 package com.keid.drinkcraft;
 
-import com.keid.drinkcraft.events.PlayerPickupItemCallback;
-import com.keid.drinkcraft.networking.ModMessages;
+import com.keid.drinkcraft.networking.packetowo.*;
 import com.keid.drinkcraft.server.RandomDistributor;
+import com.keid.drinkcraft.util.CustomBlocksFactory;
+import com.keid.drinkcraft.util.CustomSounds;
 import com.keid.drinkcraft.util.Drinkcraft_Config;
-import com.keid.drinkcraft.util.IEntityDataSaver;
-import com.keid.drinkcraft.util.SipsHelper;
+import com.keid.drinkcraft.util.SipsHelperNew;
+import io.wispforest.owo.network.OwoNetChannel;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.keid.drinkcraft.networking.ModMessages.RANDOMDIISTRO;
 
 
 public class Drinkcraft implements ModInitializer {
@@ -44,6 +39,8 @@ public class Drinkcraft implements ModInitializer {
 	public static final Identifier DIRT_BROKEN = new Identifier(MOD_ID, "dirt_broken");
 	public static final Identifier TOTAL_SIPS = new Identifier(MOD_ID, "total_sips");
 	public static final Identifier INITIAL_SYNC = new Identifier(MOD_ID, "initial_sync");
+
+	public static final OwoNetChannel DRINKCRAFTOWOCHANNEL = OwoNetChannel.create(new Identifier(MOD_ID, "drinkcraftowonet"));
 
 	public static World world;
 	public static MinecraftServer server;
@@ -63,43 +60,61 @@ public class Drinkcraft implements ModInitializer {
 			Drinkcraft.server = serverI;
 		});
 
-		ModMessages.registerC2SMessages();
+		//Networking stuff
+		DRINKCRAFTOWOCHANNEL.registerServerbound(SipsPacket.class, (message, access) -> {
+			switch (message.action()) {
+				case "add":
+					SipsHelperNew.addSips(access.player(), message.sips());
+					break;
+				case "remove":
+					SipsHelperNew.removeSips(access.player(), message.sips());
+					break;
+				case "random":
+					RandomDistributor.go(access.player(), message.sips());
+					break;
+				case "all":
+					SipsHelperNew.addAllSips(access.player().server, message.sips());
+					break;
+			}
+		});
+
+		DRINKCRAFTOWOCHANNEL.registerServerbound(SipsSyncC2SPacket.class, (message, access) -> {
+			SipsHelperNew.returnSync(access.player());
+		});
+		DRINKCRAFTOWOCHANNEL.registerServerbound(SipsTotalC2S.class, (message, access) -> {
+			SipsHelperNew.getAndSyncTotalSips(access.player());
+		});
+		DRINKCRAFTOWOCHANNEL.registerServerbound(totalSipsResetPacket.class, (message, access) -> {
+			SipsHelperNew.totalSipsReset(access.player());
+		});
+		DRINKCRAFTOWOCHANNEL.registerServerbound(SyncAllPacket.class, (message, access) -> {
+				SipsHelperNew.getAndSyncTotalSips(access.player());
+				SipsHelperNew.getAndSyncTotalSips(access.player());
+		});
+
+		//registers all blocks that trigger events
+		CustomBlocksFactory.registerCustomBlocks();
+
+		CustomSounds.initialize();
+
+		//todo: clean up
 
 
-		//todo: clean up and put shit their own classes
 
-		//-----------------------------------------------------------------
-		//Events Spam
-		//-----------------------------------------------------------------
 
-		//Diamond ore
-		PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, entity) -> {
-						if (state.getBlock() == Blocks.DIAMOND_ORE || state.getBlock() == Blocks.DEEPSLATE_DIAMOND_ORE) {
-							int sips = CONFIG.sipsPerDiamond();
 
-							PlayerManager playerManager = server.getPlayerManager();
-							playerManager.broadcast(Text.literal(player.getEntityName() + " found a diamond").formatted(Formatting.AQUA), false);
-
-							ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
-											server.execute(() -> {
-												RandomDistributor.go(playerEntity, sips);
-							});
-						}
-					});
-
-		//on Player death
 		ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
 			if(entity instanceof PlayerEntity) {
 				int sips = CONFIG.sips_on_Death();
 
-				PlayerEntity player = (PlayerEntity) entity;
+				ServerPlayerEntity player = (ServerPlayerEntity) entity;
 
 				PlayerManager playerManager = server.getPlayerManager();
 				playerManager.broadcast(Text.literal(player.getEntityName() + " died").formatted(Formatting.DARK_RED), false);
 
 				ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
 				server.execute(() -> {
-					SipsHelper.addSips((IEntityDataSaver) player, sips);
+					SipsHelperNew.addSips(player, sips);
 				});
 			}
 		});

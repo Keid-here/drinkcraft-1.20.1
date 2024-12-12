@@ -1,28 +1,17 @@
 package com.keid.drinkcraft;
 
 
-import com.keid.drinkcraft.networking.ModMessages;
-import com.keid.drinkcraft.server.EventHandler;
-import com.keid.drinkcraft.util.IEntityDataSaver;
+import com.keid.drinkcraft.networking.packetowo.SipsPacket;
+import com.keid.drinkcraft.networking.packetowo.totalSipsResetPacket;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.container.FlowLayout;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
-import javax.swing.text.html.parser.Entity;
-
-import static com.keid.drinkcraft.DrinkcraftClient.sipsInt;
-import static com.keid.drinkcraft.DrinkcraftClient.sipsTotal;
+import static com.keid.drinkcraft.Drinkcraft.MOD_ID;
+import static com.keid.drinkcraft.DrinkcraftClient.*;
 
 
 public class MainScreen extends BaseUIModelScreen<FlowLayout> {
@@ -36,28 +25,24 @@ public class MainScreen extends BaseUIModelScreen<FlowLayout> {
     @Override
     protected void build(FlowLayout rootComponent) {
         rootComponent.childById(ButtonComponent.class, "the-button").onPress(button -> {
-            System.out.println("click");
-
-            ClientPlayNetworking.send(ModMessages.SIPS, PacketByteBufs.create());
+            Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("add", 1, new Identifier(MOD_ID, "drinkcraftowonet")));
+            rootComponent.childById(LabelComponent.class, "sipsCounter").text(Text.empty().append("Sips left to drink: " + sipsInt));
         });
 
         rootComponent.childById(ButtonComponent.class, "Sip_Drinking_B").onPress(button -> {
-            System.out.println("click 2");
-
-            ClientPlayNetworking.send(ModMessages.SIPSDEC, PacketByteBufs.create());
+            Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("remove", 1, new Identifier(MOD_ID, "drinkcraftowonet")));
+            rootComponent.childById(LabelComponent.class, "sipsCounter").text(Text.empty().append("Sips left to drink: " + sipsInt));
         });
 
         rootComponent.childById(ButtonComponent.class, "Sip_Drinking_R").onPress(button -> {
-            System.out.println("click 3");
-
-            PacketByteBuf sips = PacketByteBufs.create();
-            sips.writeInt(10);
-
-            ClientPlayNetworking.send(ModMessages.RANDOMDIISTRO, sips);
+            int sips = 10;
+            Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("random", sips, new Identifier(MOD_ID, "drinkcraftowonet")));
+            rootComponent.childById(LabelComponent.class, "sipsCounter").text(Text.empty().append("Sips left to drink: " + sipsInt));
         });
 
         rootComponent.childById(ButtonComponent.class, "totalSipsReset").onPress(button -> {
-            ClientPlayNetworking.send(ModMessages.TOTALSIPSRESET, PacketByteBufs.create());
+            Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new totalSipsResetPacket(new Identifier(MOD_ID, "drinkcraftowonet")));
+            rootComponent.childById(LabelComponent.class, "totalSipsCounter").text(Text.empty().append("total sips: 0"));
         });
 
 
@@ -65,11 +50,16 @@ public class MainScreen extends BaseUIModelScreen<FlowLayout> {
                 .append(Text.literal("Sips left to drink: "))
                 .append(String.valueOf(sipsInt))
         );
-
         rootComponent.childById(LabelComponent.class, "totalSipsCounter").text(Text.empty()
                 .append(Text.literal("total sips: "))
                 .append(String.valueOf(sipsTotal))
         );
+        rootComponent.childById(LabelComponent.class, "pointsCounter").text(Text.empty()
+                .append(String.valueOf(points))
+                .append(Text.literal(" Points"))
+
+        );
+
 
         //.text(Text.empty()
         //      .append(Text.literal("Sips left to drink: "+ (((IEntityDataSaver) MinecraftClient.getInstance().player).getPersistentData().getInt("sips")))));

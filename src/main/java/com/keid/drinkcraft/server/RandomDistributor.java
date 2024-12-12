@@ -2,15 +2,12 @@ package com.keid.drinkcraft.server;
 
 
 import com.keid.drinkcraft.util.IEntityDataSaver;
-import com.keid.drinkcraft.util.SipsHelper;
+import com.keid.drinkcraft.util.SipsHelperNew;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 public class RandomDistributor {
@@ -79,6 +76,6 @@ public class RandomDistributor {
 
     //send sips Package
     public static void sendSips(ServerPlayerEntity player, int sips) {
-        SipsHelper.addSips(((IEntityDataSaver) player), sips);
+        SipsHelperNew.addSips(player, sips);
     }
 }

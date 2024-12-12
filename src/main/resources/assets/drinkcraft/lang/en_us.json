@@ -3,5 +3,6 @@
   "key.drinkcraft.HUD": "Toggle HUD",
   "key.drinkcraft.drink": "drink a sip",
   "category.drinkcraft.gui_cat": "Drink Craft",
-  "text.config.drinkcraft_config.option.sipsPerDiamond": "Sips per diamond ore broken"
+  "text.config.drinkcraft_config.option.sipsPerDiamond": "Sips per diamond ore broken",
+  "sound.drinkcraft.addsound": "Sips add"
 }

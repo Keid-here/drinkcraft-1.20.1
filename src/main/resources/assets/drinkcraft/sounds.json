@@ -1,0 +1,6 @@
+{
+  "addsound": {
+    "subtitle": "sound.drinkcraft.addsound",
+    "sounds": ["drinkcraft:addsound"]
+  }
+}
