@@ -3,13 +3,10 @@ package com.keid.drinkcraft.items;
 import blue.endless.jankson.annotation.Nullable;
 import com.keid.drinkcraft.Drinkcraft;
 import com.keid.drinkcraft.networking.packetowo.SipsPacket;
-import com.keid.drinkcraft.util.ItemInit;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.util.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,10 +19,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.keid.drinkcraft.Drinkcraft.*;
+import static com.keid.drinkcraft.Drinkcraft.CONFIG;
 
-public class TomeOfCascade extends Item{
+public class TomeOfWind extends Item{
 
-    public TomeOfCascade() {
+    public TomeOfWind() {
         super(new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).fireproof());
     }
 
@@ -37,17 +35,17 @@ public class TomeOfCascade extends Item{
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
 
-        int min = CONFIG.min_Sips_per_Cascade();
-        int max = CONFIG.max_Sips_per_Cascade();
+        int min = CONFIG.min_Sips_per_Wind();
+        int max = CONFIG.max_Sips_per_Wind();
 
         int randomsips = ThreadLocalRandom.current().nextInt(min, max + 1);
 
 
         PlayerManager playerManager = server.getPlayerManager();
-        playerManager.broadcast(Text.literal("The Tome of Cascade was used").formatted(Formatting.RED), false);
+        playerManager.broadcast(Text.literal("The Tome of Wind was used").formatted(Formatting.YELLOW), false);
 
         System.out.println("used");
-        Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("all", randomsips, new Identifier(MOD_ID, "drinkcraftowonet")));
+        Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("truerandom", randomsips, new Identifier(MOD_ID, "drinkcraftowonet")));
 
         ItemStack heldStack = user.getStackInHand(hand);
         heldStack.decrement(1);
@@ -57,8 +55,9 @@ public class TomeOfCascade extends Item{
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.literal("make everyone drink").formatted(Formatting.RED));
+        tooltip.add(Text.literal("make someone else drink").formatted(Formatting.BLUE));
     }
 
 
 }
+

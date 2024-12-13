@@ -73,7 +73,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			while (binding1.wasPressed()) {
 
-				Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsTotalC2S(1 , new Identifier("drinkcraft", "sipstotalc2s")));
+				Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SyncAllPacket(new Identifier("drinkcraft", "sipstotalc2s")));
 				MinecraftClient.getInstance().setScreen(new MainScreen());
 					//System.out.println(KeyBindingHelper.getBoundKeyOf(binding1));
 			}
@@ -81,7 +81,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 		// HUD toggle
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			while (binding2.wasPressed()) {
-				if (hudToggle == false){
+				if (!hudToggle){
 					hudToggle = true;
 					Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsSyncC2SPacket(new Identifier(MOD_ID, "drinkcraftowonet")));
 					client.player.sendMessage(Text.literal("HUD toggled on"), false);
@@ -103,13 +103,14 @@ public class DrinkcraftClient implements ClientModInitializer {
 		});
 
 		DRINKCRAFTOWOCHANNEL.registerClientbound(SipsTotalC2S.class, (message, access) -> {
+			System.out.println("total: " + message.someData());
 			SipsHelperClient.syncTotalSips(message.someData());
 		});
 		//receives saved sips
 		DRINKCRAFTOWOCHANNEL.registerClientbound(SipsSyncPacket.class, (message, access) -> {
 			System.out.println("recieved Syc pack " + message.sips());
 			SipsHelperClient.syncClientSips(message.sips());
-			if (hudToggle == true) {
+			if (hudToggle) {
 				Hud.remove(HUD);
 				Hud.add(HUD, () ->
 						Containers.verticalFlow(Sizing.content(), Sizing.content())
@@ -127,7 +128,6 @@ public class DrinkcraftClient implements ClientModInitializer {
 		DRINKCRAFTOWOCHANNEL.registerClientbound(PointsSyncPacket.class, (message, access) -> {
 			SipsHelperClient.syncPoints(message.points());
 		});
-
 
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
 			Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SyncAllPacket(new Identifier(MOD_ID, "drinkcraftowonet")));

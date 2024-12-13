@@ -1,0 +1,97 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+
+    <components>
+        <flow-layout direction="horizontal">
+            <children>
+                <label>
+                    <text>are you sure?</text>
+                    <shadow>true</shadow>
+
+                    <positioning type="relative">50,5</positioning>
+                </label>
+
+                <flow-layout direction="vertical" id="right box">
+                    <children>
+
+
+                        <flow-layout direction="vertical" id="box-container-info">
+                            <children>
+                                <label id="sure">
+                                    <text>Are you sure you want to reset your total sip counter?</text>
+                                    <max-width>200</max-width>
+                                    <margins>
+                                        <all>5</all>
+                                    </margins>
+                                </label>
+                            </children>
+
+                            <padding>
+                                <all>3</all>
+                            </padding>
+                            <margins>
+                                <all>5</all>
+                            </margins>
+                            <sizing>
+
+                            </sizing>
+
+                            <surface>
+                                <flat>#77000000</flat>
+                                <outline>#FF121212</outline>
+                            </surface>
+
+                        </flow-layout>
+
+                        <flow-layout direction="horizontal" id="confirmbox">
+                            <children>
+
+                                <button id="yes">
+                                    <active>true</active>
+                                    <text>yes</text>
+                                    <margins>
+                                        <all>5</all>
+                                    </margins>
+                                </button>
+                                <button id="no">
+                                    <active>true</active>
+                                    <text>no</text>
+                                    <margins>
+                                        <all>5</all>
+                                    </margins>
+                                </button>
+
+                            </children>
+
+                            <padding>
+                                <all>3</all>
+                            </padding>
+
+                            <margins>
+                                <all>5</all>
+                            </margins>
+                            <sizing>
+
+                            </sizing>
+
+                        </flow-layout>
+                    </children>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <surface>
+                        <panel dark="true"/>
+                    </surface>
+
+                </flow-layout>
+            </children>
+
+            <vertical-alignment>center</vertical-alignment>
+            <horizontal-alignment>center</horizontal-alignment>
+
+            <surface>
+                <flat>#C0101010</flat>
+            </surface>
+
+        </flow-layout>
+    </components>
+</owo-ui>

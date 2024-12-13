@@ -51,13 +51,11 @@ public class SipsHelperNew {
         nbt.putInt("sips", sips);
 
         //add total Sips
-        int sipsTotal = nbt.getInt("sipsTotal");
-        sipsTotal += amount;
-        nbt.putInt("sipsTotal", sipsTotal);
+
 
         // sync the data
         syncSips(sips, player);
-        totalSipsSync(sipsTotal, player);
+
 
         player.getServer().getPlayerManager().broadcast(Text.literal("added " + amount + " sips to " + player.getEntityName()).formatted(Formatting.AQUA), false);
         player.playSound(ADDSOUND, SoundCategory.AMBIENT, 0.7f, 1f);
@@ -75,25 +73,33 @@ public class SipsHelperNew {
 
         NbtCompound nbt = playerEntity.getPersistentData();
         int sips = nbt.getInt("sips");
+
+        System.out.println("sips before: " + sips);
+
         if(sips - amount < 0) {
             sips = 0;
         } else {
             sips -= amount;
 
             int points = nbt.getInt("points");
-            points ++;
+            points += amount;
             nbt.putInt("points", points);
             syncPoints(points, player);
 
-
             player.playSound(SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.AMBIENT, 0.1f, 1f);
 
+            int sipsTotal = nbt.getInt("sipsTotal");
+            sipsTotal += amount;
+            nbt.putInt("sipsTotal", sipsTotal);
+
+
+            nbt.putInt("sips", sips);
+
+            syncSips(sips, player);
+            totalSipsSync(sipsTotal, player);
         }
-        nbt.putInt("sips", sips);
 
-        syncSips(sips, player);
-
-
+        System.out.println("sips after : " + sips);
 
         return sips;
     }
@@ -124,13 +130,9 @@ public class SipsHelperNew {
     public static void addAllSips(MinecraftServer server, int amount) {
         Collection<ServerPlayerEntity> allPlayersCollection = PlayerLookup.all(server);
 
-
-
         for (ServerPlayerEntity player : allPlayersCollection) {
             addSips(player, amount);
         }
-
-
     }
 
     public static void totalSipsSync(int sips, ServerPlayerEntity player) {

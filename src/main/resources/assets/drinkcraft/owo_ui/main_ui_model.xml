@@ -124,6 +124,18 @@
                                         <all>5</all>
                                     </margins>
                                 </button>
+                                <button id="reset_total">
+                                    <active>true</active>
+                                    <text>!</text>
+                                    <tooltip-text>Reset your total sips counter</tooltip-text>
+                                    <sizing>
+                                        <horizontal method="fixed">12</horizontal>
+                                        <vertical method="fixed">12</vertical>
+                                    </sizing>
+                                    <margins>
+                                        <all>5</all>
+                                    </margins>
+                                </button>
 
                             </children>
 

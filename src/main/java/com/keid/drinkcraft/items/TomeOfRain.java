@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.keid.drinkcraft.Drinkcraft.*;
+import static com.keid.drinkcraft.Drinkcraft.CONFIG;
 
-public class TomeOfCascade extends Item{
+public class TomeOfRain extends Item{
 
-    public TomeOfCascade() {
+    public TomeOfRain() {
         super(new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).fireproof());
     }
 
@@ -37,17 +38,17 @@ public class TomeOfCascade extends Item{
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
 
-        int min = CONFIG.min_Sips_per_Cascade();
-        int max = CONFIG.max_Sips_per_Cascade();
+        int min = CONFIG.min_Sips_per_Rain();
+        int max = CONFIG.max_Sips_per_Rain();
 
         int randomsips = ThreadLocalRandom.current().nextInt(min, max + 1);
 
 
         PlayerManager playerManager = server.getPlayerManager();
-        playerManager.broadcast(Text.literal("The Tome of Cascade was used").formatted(Formatting.RED), false);
+        playerManager.broadcast(Text.literal("The Tome of Rain was used").formatted(Formatting.BLUE), false);
 
         System.out.println("used");
-        Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("all", randomsips, new Identifier(MOD_ID, "drinkcraftowonet")));
+        Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsPacket("random", randomsips, new Identifier(MOD_ID, "drinkcraftowonet")));
 
         ItemStack heldStack = user.getStackInHand(hand);
         heldStack.decrement(1);
@@ -57,7 +58,7 @@ public class TomeOfCascade extends Item{
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.literal("make everyone drink").formatted(Formatting.RED));
+        tooltip.add(Text.literal("make someone else drink").formatted(Formatting.BLUE));
     }
 
 

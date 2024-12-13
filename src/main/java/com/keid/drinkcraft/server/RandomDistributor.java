@@ -78,4 +78,14 @@ public class RandomDistributor {
     public static void sendSips(ServerPlayerEntity player, int sips) {
         SipsHelperNew.addSips(player, sips);
     }
+
+    //
+
+    public static void trueRandpom(ServerPlayerEntity player, int sips){
+        Collection<ServerPlayerEntity> unfilteredCollection = PlayerLookup.all(player.getServer());
+
+        ServerPlayerEntity victim = getRandomPlayer(unfilteredCollection);
+
+        sendSips(victim, sips);
+    }
 }

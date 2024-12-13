@@ -5,5 +5,7 @@
   "category.drinkcraft.gui_cat": "Drink Craft",
   "text.config.drinkcraft_config.option.sipsPerDiamond": "Sips per diamond ore broken",
   "sound.drinkcraft.addsound": "Sips add",
-  "item.drinkcraft.tomeofcascade": "Tome of Cascade"
+  "item.drinkcraft.tomeofcascade": "Tome of Cascade",
+  "item.drinkcraft.tomeofrain": "Tome of Rain",
+  "item.drinkcraft.tomeofwind": "Tome of Wind"
 }

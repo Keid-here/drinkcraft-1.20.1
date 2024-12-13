@@ -15,4 +15,6 @@ public class SipsHelperClient {
     public static void syncPoints(int points){
         DrinkcraftClient.points = points;
     }
+
 }
+

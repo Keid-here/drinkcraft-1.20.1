@@ -76,6 +76,9 @@ public class Drinkcraft implements ModInitializer {
 				case "all":
 					SipsHelperNew.addAllSips(access.player().server, message.sips());
 					break;
+				case "truerandom":
+					RandomDistributor.trueRandpom(access.player(), message.sips());
+					break;
 			}
 		});
 
@@ -89,8 +92,9 @@ public class Drinkcraft implements ModInitializer {
 			SipsHelperNew.totalSipsReset(access.player());
 		});
 		DRINKCRAFTOWOCHANNEL.registerServerbound(SyncAllPacket.class, (message, access) -> {
+				SipsHelperNew.returnSync(access.player());
 				SipsHelperNew.getAndSyncTotalSips(access.player());
-				SipsHelperNew.getAndSyncTotalSips(access.player());
+				SipsHelperNew.returnSyncPoints(access.player());
 		});
 
 		//registers all blocks that trigger events
@@ -103,6 +107,7 @@ public class Drinkcraft implements ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.add(ItemInit.TOMEOFCASCADE) );
 
 		LootTableRegister.registerLootTables();
+		LootTableRegister.registerMobLootTables();
 
 
 
