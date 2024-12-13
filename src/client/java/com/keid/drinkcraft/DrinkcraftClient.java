@@ -72,6 +72,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 		// opens GUI
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			while (binding1.wasPressed()) {
+
 				Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SipsTotalC2S(1 , new Identifier("drinkcraft", "sipstotalc2s")));
 				MinecraftClient.getInstance().setScreen(new MainScreen());
 					//System.out.println(KeyBindingHelper.getBoundKeyOf(binding1));

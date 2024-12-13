@@ -11,7 +11,7 @@ public class DrinkcraftConfigModel {
 
     public int sips_on_Death = 10;
 
-    public int sipsPerDiamond = 5;
+    public float loot_chance_Tome_Of_Cascade = 10;
 
     //Blocks by id and sips to be added. must be in the coorect form: "moid_id:block_id:sips,..."
     public String custom_blocks = "minecraft:diamond_ore:5,minecraft:deepslate_diamond_ore:5,minecraft:deepslate_emerald_ore:10,minecraft:emerald_ore:5,minecraft:ancient_debris:10";

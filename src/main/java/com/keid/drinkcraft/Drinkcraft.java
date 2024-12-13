@@ -2,17 +2,18 @@ package com.keid.drinkcraft;
 
 import com.keid.drinkcraft.networking.packetowo.*;
 import com.keid.drinkcraft.server.RandomDistributor;
-import com.keid.drinkcraft.util.CustomBlocksFactory;
-import com.keid.drinkcraft.util.CustomSounds;
+import com.keid.drinkcraft.util.*;
 import com.keid.drinkcraft.util.Drinkcraft_Config;
-import com.keid.drinkcraft.util.SipsHelperNew;
 import io.wispforest.owo.network.OwoNetChannel;
+import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
@@ -96,6 +97,14 @@ public class Drinkcraft implements ModInitializer {
 		CustomBlocksFactory.registerCustomBlocks();
 
 		CustomSounds.initialize();
+
+		FieldRegistrationHandler.register(ItemInit.class, MOD_ID,false);
+
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.add(ItemInit.TOMEOFCASCADE) );
+
+		LootTableRegister.registerLootTables();
+
+
 
 		//todo: clean up
 

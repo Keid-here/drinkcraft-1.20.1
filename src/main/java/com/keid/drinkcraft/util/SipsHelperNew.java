@@ -124,11 +124,13 @@ public class SipsHelperNew {
     public static void addAllSips(MinecraftServer server, int amount) {
         Collection<ServerPlayerEntity> allPlayersCollection = PlayerLookup.all(server);
 
+
+
         for (ServerPlayerEntity player : allPlayersCollection) {
             addSips(player, amount);
         }
-        PlayerManager playerManager = server.getPlayerManager();
-        playerManager.broadcast(Text.literal("added " + amount + " sips to everyone").formatted(Formatting.RED), false);
+
+
     }
 
     public static void totalSipsSync(int sips, ServerPlayerEntity player) {
