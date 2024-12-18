@@ -1,0 +1,168 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+
+    <components>
+        <flow-layout direction="horizontal">
+            <children>
+                <label>
+                    <text>super gamble</text>
+                    <shadow>true</shadow>
+
+                    <positioning type="relative">50,5</positioning>
+                </label>
+
+                <flow-layout direction="horizontal" id="box">
+                    <children>
+
+                        <flow-layout direction="vertical" id="box-container-tabs">
+                            <children>
+                                <label>
+                                    <text>How to play: reveal 3 fields. The total score of all revealed numbers determines the price!</text>
+                                    <margins><all>5</all></margins>
+                                    <max-width>95</max-width>
+                                </label>
+                                <label>
+                                    <text>Prices:
+0-20: bad
+21-30: neutral
+31-85: good
+86-100: Jackpot</text>
+                                    <margins><all>5</all></margins>
+                                    <max-width>95</max-width>
+                                </label>
+                                <label id="current_points">
+                                    <text>Points: </text>
+                                    <margins><all>5</all></margins>
+                                    <max-width>95</max-width>
+                                </label>
+                                <button id="confirm">
+                                    <text>confirm</text>
+                                    <active>false</active>
+                                </button>
+                            </children>
+                            <padding>
+                                <all>0</all>
+                            </padding>
+                            <margins>
+                                <all>5</all>
+                            </margins>
+                            <sizing>
+
+                                <horizontal method="fixed">100</horizontal>
+                            </sizing>
+
+                        </flow-layout>
+
+
+
+
+                        <flow-layout direction="vertical" id="box-container-gamble">
+                            <children>
+
+                                <flow-layout direction="horizontal">
+                                    <children>
+                                        <button id="1">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                        <button id="2">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                        <button id="3">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                    </children>
+                                    <margins><horizontal>5</horizontal><bottom>40</bottom><top>5</top></margins>
+                                    <vertical-alignment>center</vertical-alignment>
+                                    <horizontal-alignment>center</horizontal-alignment>
+                                    <gap>45</gap>
+                                </flow-layout>
+
+                                <flow-layout direction="horizontal">
+                                    <children>
+                                        <button id="4">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                        <button id="5">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                        <button id="6">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                    </children>
+                                    <margins><horizontal>5</horizontal><bottom>40</bottom><top>5</top></margins>
+                                    <vertical-alignment>center</vertical-alignment>
+                                    <horizontal-alignment>center</horizontal-alignment>
+                                    <gap>45</gap>
+                                </flow-layout>
+
+                                <flow-layout direction="horizontal">
+                                    <children>
+                                        <button id="7">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                        <button id="8">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                        <button id="9">
+                                            <sizing><vertical method="fixed">30</vertical><horizontal
+                                                    method="fixed">30</horizontal></sizing>
+                                        </button>
+                                    </children>
+                                    <margins><all>5</all></margins>
+                                    <vertical-alignment>center</vertical-alignment>
+                                    <horizontal-alignment>center</horizontal-alignment>
+                                    <gap>45</gap>
+                                </flow-layout>
+
+                            </children>
+
+
+                            <padding>
+                                <all>3</all>
+                            </padding>
+                            <margins>
+                                <all>5</all>
+                            </margins>
+                            <sizing>
+                                <vertical method="fixed">200</vertical>
+                                <horizontal method="fixed">200</horizontal>
+                            </sizing>
+
+
+                            <surface>
+                                <flat>#77000000</flat>
+                                <outline>#FF121212</outline>
+                            </surface>
+
+                        </flow-layout>
+
+
+
+                    </children>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <surface>
+                        <panel dark="true"/>
+                    </surface>
+
+                </flow-layout>
+            </children>
+
+            <vertical-alignment>center</vertical-alignment>
+            <horizontal-alignment>center</horizontal-alignment>
+
+            <surface>
+                <flat>#C0101010</flat>
+            </surface>
+
+        </flow-layout>
+    </components>
+</owo-ui>

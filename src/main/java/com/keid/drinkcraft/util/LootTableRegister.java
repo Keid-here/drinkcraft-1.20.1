@@ -115,6 +115,12 @@ public class LootTableRegister {
     public static float chance = CONFIG.tome_chance();
     public static float mobchance = CONFIG.tome_mobchance();
 
+    public static float ticketchance = CONFIG.ticket_chance();
+    public static float mobticketchance = CONFIG.ticket_mobchance();
+
+    public static float superticketchance = CONFIG.superticket_chance();
+    public static float mobsuperticketchance = CONFIG.superticket_mobchance();
+
 
     // add CREEPER_ID for testing
 
@@ -125,12 +131,7 @@ public class LootTableRegister {
             SHIPWRECK_ID, STRONGHOLD_ID, RUINED_PORTAL_ID, SHIPWRECK_TREASURE_ID,
             SIMPLE_DUNGEON_ID, STRONGHOLD_CROSSING_ID, STRONGHOLD_CORRIDOR_ID,
             VILLAGE_ID, VILLAGE_SNOWY_ID, VILLAGE_TAIGA_ID, VILLAGE_DESERT_ID,
-            VILLAGE_SAVANNA_ID, VILLAGE_WEAPONSMA_ID,
-            CREEPER_ID, ZOMBIE_ID, SKELETON_ID, SPIDER_ID, ENDERMAN_ID,
-            GHAST_ID, MAGMA_CUBE_ID, BLAZE_ID, PIGLIN_ID, PIGLIN_BRUTE_ID,
-            WITHER_SKELETON_ID, HOGLIN_ID, ZOGLIN_ID, SLIME_ID, DROWNED_ID,
-            WITCH_ID, HUSK_ID, STRAY_ID, PHANTOM_ID, GUARDIAN_ID, EVOKER_ID,
-            PILLAGER_ID, VINDICATOR_ID, RAVAGER_ID
+            VILLAGE_SAVANNA_ID, VILLAGE_WEAPONSMA_ID
             );
     }
     
@@ -149,6 +150,12 @@ public class LootTableRegister {
                 ItemInit.TOMEOFCASCADE,ItemInit.TOMEOFRAIN,ItemInit.TOMEOFWIND );
     }
 
+    public static List<Item> allTickets() {
+        return Arrays.asList(
+                ItemInit.LUCKYTICKET);
+    }
+
+
 
     public static void registerLootTables() {
         for (Item item : allItems()) {
@@ -165,6 +172,41 @@ public class LootTableRegister {
             }
         }
     }
+
+    //Tickets
+    public static void registerLootTablesTicket() {
+        for (Item item : allTickets()) {
+            for (Identifier id : getAllIdentifiers()) {
+                modifyLootTablesTomes(id,item, ticketchance, 1.0f, 1.0f);
+            }
+        }
+    }
+
+    public static void registerMobLootTablesTicket() {
+        for (Item item : allTickets()) {
+            for (Identifier id : getAllMobIdentifiers()) {
+                modifyLootTablesTomes(id,item, mobticketchance, 1.0f, 1.0f);
+            }
+        }
+    }
+
+    //Superlucky Ticket
+    public static void registerLootTablesSuperTicket() {
+            for (Identifier id : getAllIdentifiers()) {
+                modifyLootTablesTomes(id,ItemInit.SUPERLUCKYTICKET, superticketchance, 1.0f, 1.0f);
+            }
+    }
+
+    public static void registerMobLootTablesSuperTicket() {
+            for (Identifier id : getAllMobIdentifiers()) {
+                modifyLootTablesTomes(id,ItemInit.SUPERLUCKYTICKET, mobsuperticketchance, 1.0f, 1.0f);
+            }
+
+    }
+
+
+
+
 
     public static void modifyLootTablesTomes(Identifier loottable,ItemConvertible item, float chance, float min, float max) {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {

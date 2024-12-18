@@ -97,6 +97,14 @@ public class Drinkcraft implements ModInitializer {
 				SipsHelperNew.returnSyncPoints(access.player());
 		});
 
+		DRINKCRAFTOWOCHANNEL.registerServerbound(GamblePacket.class, (message, access) -> {
+			GamblingHelper.gamble(access.player());
+		});
+		DRINKCRAFTOWOCHANNEL.registerServerbound(shopPacket.class, (message, access) -> {
+			System.out.println("shop");
+			ShopHelper.buy(message.type(), access.player());
+		});
+
 		//registers all blocks that trigger events
 		CustomBlocksFactory.registerCustomBlocks();
 
@@ -108,6 +116,16 @@ public class Drinkcraft implements ModInitializer {
 
 		LootTableRegister.registerLootTables();
 		LootTableRegister.registerMobLootTables();
+		LootTableRegister.registerLootTablesTicket();
+		LootTableRegister.registerMobLootTablesTicket();
+		LootTableRegister.registerLootTablesSuperTicket();
+		LootTableRegister.registerMobLootTablesSuperTicket();
+
+
+		DRINKCRAFTOWOCHANNEL.registerServerbound(PricePacket.class, (message, access) -> {
+			System.out.println("price arrived");
+			PriceHelper.go(message.type(), message.rolls(), access.player());
+		});
 
 
 

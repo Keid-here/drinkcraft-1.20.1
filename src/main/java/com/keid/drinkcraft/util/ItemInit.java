@@ -1,12 +1,8 @@
 package com.keid.drinkcraft.util;
 
-import com.keid.drinkcraft.Drinkcraft;
-import com.keid.drinkcraft.items.TomeOfCascade;
-import com.keid.drinkcraft.items.TomeOfRain;
-import com.keid.drinkcraft.items.TomeOfWind;
+import com.keid.drinkcraft.items.*;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
 
 public class ItemInit implements ItemRegistryContainer {
 
@@ -15,5 +11,9 @@ public class ItemInit implements ItemRegistryContainer {
     public static final Item TOMEOFRAIN = new TomeOfRain();
 
     public static final Item TOMEOFWIND = new TomeOfWind();
+
+    public static final Item LUCKYTICKET = new LuckyTicket();
+
+    public static final Item SUPERLUCKYTICKET = new SuperLuckyTicket();
 
 }

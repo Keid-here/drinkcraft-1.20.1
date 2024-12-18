@@ -148,6 +148,7 @@ public class SipsHelperNew {
         totalSipsSync(totalSips, player);
     }
 
+
     //Points section
 
     public static void syncPoints(int points, ServerPlayerEntity player) {
@@ -162,5 +163,28 @@ public class SipsHelperNew {
 
         syncPoints(points, player);
     }
+
+    public static void addPoints(ServerPlayerEntity player, int amount){
+        var playerEntity = ((IEntityDataSaver) player);
+        NbtCompound nbt = playerEntity.getPersistentData();
+        int points = nbt.getInt("points");
+
+        points += amount;
+        nbt.putInt("points", points);
+        syncPoints(points, player);
+    }
+
+    public static void removePoints(ServerPlayerEntity player, int amount){
+        var playerEntity = ((IEntityDataSaver) player);
+        NbtCompound nbt = playerEntity.getPersistentData();
+        int points = nbt.getInt("points");
+
+        points -= amount;
+        if(points < 0) points = 0;
+        nbt.putInt("points", points);
+        syncPoints(points, player);
+    }
+
+
 }
 

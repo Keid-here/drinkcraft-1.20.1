@@ -133,6 +133,19 @@ public class DrinkcraftClient implements ClientModInitializer {
 			Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SyncAllPacket(new Identifier(MOD_ID, "drinkcraftowonet")));
 		});
 
+		DRINKCRAFTOWOCHANNEL.registerClientbound(ScratchS2C.class, (message, access) -> {
+			switch (message.type()) {
+				case "lucky":
+					MinecraftClient.getInstance().setScreen(new LuckyTicketScreen());
+					break;
+				case "superlucky":
+					MinecraftClient.getInstance().setScreen(new SuperLuckyTicketScreen());
+					break;
+			}
+		});
+
+
+
 
 
 

@@ -59,6 +59,4 @@ public class TomeOfCascade extends Item{
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(Text.literal("make everyone drink").formatted(Formatting.RED));
     }
-
-
 }

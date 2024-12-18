@@ -1,6 +1,7 @@
 package com.keid.drinkcraft;
 
 
+import com.keid.drinkcraft.networking.packetowo.GamblePacket;
 import com.keid.drinkcraft.networking.packetowo.SipsPacket;
 import com.keid.drinkcraft.networking.packetowo.SyncAllPacket;
 import com.keid.drinkcraft.networking.packetowo.totalSipsResetPacket;
@@ -61,6 +62,12 @@ public class MainScreen extends BaseUIModelScreen<FlowLayout> {
             rootComponent.childById(LabelComponent.class, "sips_left").text(Text.empty().append("Sips left: " + fakeSips));
             rootComponent.childById(LabelComponent.class, "total_sips").text(Text.empty().append("total sips: " + fakeSipsTotal));
             rootComponent.childById(LabelComponent.class, "points").text(Text.empty().append("Points: " + fakePoints));
+        });
+
+        rootComponent.childById(ButtonComponent.class, "coming_button").onPress(button -> {
+            Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new GamblePacket( new Identifier(MOD_ID, "drinkcraftowonet")));
+            Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SyncAllPacket(new Identifier(MOD_ID, "drinkcraftowonet")));
+
         });
 
         rootComponent.childById(ButtonComponent.class, "drink_one").active(sipsInt > 0);

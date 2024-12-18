@@ -1,7 +1,6 @@
 package com.keid.drinkcraft.server;
 
 
-import com.keid.drinkcraft.util.IEntityDataSaver;
 import com.keid.drinkcraft.util.SipsHelperNew;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -87,5 +86,17 @@ public class RandomDistributor {
         ServerPlayerEntity victim = getRandomPlayer(unfilteredCollection);
 
         sendSips(victim, sips);
+    }
+
+    public static void goAllButPlayer(ServerPlayerEntity player, int sips) {
+
+        Collection<ServerPlayerEntity> unfilteredCollection = PlayerLookup.all(player.getServer());
+
+        Collection<ServerPlayerEntity> filteredCollection = filterCollection(unfilteredCollection, player);
+
+        for (ServerPlayerEntity item : filteredCollection) {
+            sendSips(item, sips);
+        }
+
     }
 }
