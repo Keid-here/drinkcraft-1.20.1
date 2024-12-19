@@ -1,6 +1,7 @@
 package com.keid.drinkcraft.gambling;
 
 import com.keid.drinkcraft.server.RandomDistributor;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -10,6 +11,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.concurrent.ThreadLocalRandom;
+
+import static com.keid.drinkcraft.Drinkcraft.GAMBLEEFFECT;
+import static com.keid.drinkcraft.Drinkcraft.SUPERINSOMNIA;
 
 public class Jackpot {
     public static void go(int rolls, ServerPlayerEntity player) {
@@ -70,6 +74,7 @@ public class Jackpot {
                     player.addStatusEffect(new net.minecraft.entity.effect.StatusEffectInstance(StatusEffects.WATER_BREATHING, 24000, 2));
                     player.addStatusEffect(new net.minecraft.entity.effect.StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 24000, 2));
                     player.addStatusEffect(new net.minecraft.entity.effect.StatusEffectInstance(StatusEffects.LUCK, 24000, 10));
+                    player.addStatusEffect(new StatusEffectInstance(GAMBLEEFFECT, 1200, 2));
                     break;
 
                 case 4:
@@ -86,7 +91,7 @@ public class Jackpot {
                     break;
 
                 case 5:
-                    // free jump
+                    // free level
                     player.getServer().getPlayerManager().broadcast(Text.literal(player.getEntityName() + " leveled up").formatted(Formatting.GOLD), false);
                     player.addExperienceLevels(150);
                     break;

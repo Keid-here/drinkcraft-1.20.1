@@ -1,5 +1,6 @@
 package com.keid.drinkcraft;
 
+import com.keid.drinkcraft.effects.*;
 import com.keid.drinkcraft.networking.packetowo.*;
 import com.keid.drinkcraft.server.RandomDistributor;
 import com.keid.drinkcraft.util.*;
@@ -8,17 +9,16 @@ import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.Blocks;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -40,6 +40,13 @@ public class Drinkcraft implements ModInitializer {
 	public static final Identifier DIRT_BROKEN = new Identifier(MOD_ID, "dirt_broken");
 	public static final Identifier TOTAL_SIPS = new Identifier(MOD_ID, "total_sips");
 	public static final Identifier INITIAL_SYNC = new Identifier(MOD_ID, "initial_sync");
+
+	public static final StatusEffect GAMBLEEFFECT = new GambleEffect();
+	public static final StatusEffect FISHCURSE = new FishCurseEffect();
+	public static final StatusEffect CLUMSY = new ClumsyEffect();
+	public static final StatusEffect SUPERINSOMNIA = new SuperInsomnia();
+	public static final StatusEffect FRAGILE = new FragileEffect();
+	public static final StatusEffect GREENTEA = new GreenteaEffect();
 
 	public static final OwoNetChannel DRINKCRAFTOWOCHANNEL = OwoNetChannel.create(new Identifier(MOD_ID, "drinkcraftowonet"));
 
@@ -105,6 +112,11 @@ public class Drinkcraft implements ModInitializer {
 			ShopHelper.buy(message.type(), access.player());
 		});
 
+		DRINKCRAFTOWOCHANNEL.registerServerbound(PricePacket.class, (message, access) -> {
+			System.out.println("price arrived");
+			PriceHelper.go(message.type(), message.rolls(), access.player());
+		});
+
 		//registers all blocks that trigger events
 		CustomBlocksFactory.registerCustomBlocks();
 
@@ -122,10 +134,14 @@ public class Drinkcraft implements ModInitializer {
 		LootTableRegister.registerMobLootTablesSuperTicket();
 
 
-		DRINKCRAFTOWOCHANNEL.registerServerbound(PricePacket.class, (message, access) -> {
-			System.out.println("price arrived");
-			PriceHelper.go(message.type(), message.rolls(), access.player());
-		});
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("drinkcraft", "gamble"), GAMBLEEFFECT);
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("drinkcraft", "fishcurse"), FISHCURSE);
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("drinkcraft", "clumsy"), CLUMSY);
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("drinkcraft", "superinsomnia"), SUPERINSOMNIA);
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("drinkcraft", "fragile"), FRAGILE);
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("drinkcraft", "greentea"), GREENTEA);
+
+
 
 
 
@@ -137,18 +153,25 @@ public class Drinkcraft implements ModInitializer {
 
 		ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
 			if(entity instanceof PlayerEntity) {
-				int sips = CONFIG.sips_on_Death();
 
 				ServerPlayerEntity player = (ServerPlayerEntity) entity;
 
 				PlayerManager playerManager = server.getPlayerManager();
 				playerManager.broadcast(Text.literal(player.getEntityName() + " died").formatted(Formatting.DARK_RED), false);
 
-				ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
-				server.execute(() -> {
-					SipsHelperNew.addSips(player, sips);
-				});
+
+				//ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
+				//server.execute(() -> {
+				//	SipsHelperNew.addSips(player, sips);
+				//});
 			}
+		});
+
+		ServerPlayerEvents.AFTER_RESPAWN.register((serverPlayerEntity, serverPlayerEntity1, b) -> {
+			int sips = CONFIG.sips_on_Death();
+
+			SipsHelperNew.addSips(serverPlayerEntity1, sips);
+
 		});
 
 

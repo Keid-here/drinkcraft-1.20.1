@@ -9,5 +9,11 @@
   "item.drinkcraft.tomeofrain": "Tome of Rain",
   "item.drinkcraft.tomeofwind": "Tome of Wind",
   "item.drinkcraft.luckyticket": "Lucky Scratch Ticket",
-  "item.drinkcraft.superluckyticket": "Superlucky Scratch Ticket"
+  "item.drinkcraft.superluckyticket": "Superlucky Scratch Ticket",
+  "effect.drinkcraft.gamble": "Gamble",
+  "effect.drinkcraft.fishcurse": "Curse of the Fish",
+  "effect.drinkcraft.clumsy": "Clumsy",
+  "effect.drinkcraft.superinsomnia": "Super Insomnia",
+  "effect.drinkcraft.fragile": "Fragile",
+  "effect.drinkcraft.greentea": "Green Tea"
 }
