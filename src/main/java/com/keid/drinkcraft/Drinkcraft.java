@@ -167,11 +167,14 @@ public class Drinkcraft implements ModInitializer {
 			}
 		});
 
+
 		ServerPlayerEvents.AFTER_RESPAWN.register((serverPlayerEntity, serverPlayerEntity1, b) -> {
 			int sips = CONFIG.sips_on_Death();
 
-			SipsHelperNew.addSips(serverPlayerEntity1, sips);
+			SipsHelperNew.postMortem(serverPlayerEntity, serverPlayerEntity1);
 
+
+			SipsHelperNew.addSips(serverPlayerEntity1, sips);
 		});
 
 

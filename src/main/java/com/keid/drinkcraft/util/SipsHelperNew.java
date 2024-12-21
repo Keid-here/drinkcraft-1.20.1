@@ -185,6 +185,26 @@ public class SipsHelperNew {
         syncPoints(points, player);
     }
 
+    //after death jank section
+    //copy the old nbt data over to the new Player entity. if you don't do this the data is not persistent
+    public static void postMortem(ServerPlayerEntity player, ServerPlayerEntity player_new) {
+        var playerEntity = ((IEntityDataSaver) player);
+        var playerEntity_new = ((IEntityDataSaver) player_new);
+        NbtCompound nbt = playerEntity.getPersistentData();
+        NbtCompound nbt_new = playerEntity_new.getPersistentData();
 
+        int sips = nbt.getInt("sips");
+        int totalSips = nbt.getInt("sipsTotal");
+        int points = nbt.getInt("points");
+
+        nbt_new.putInt("sips", sips);
+        nbt_new.putInt("sipsTotal", totalSips);
+        nbt_new.putInt("points", points);
+
+        syncSips(sips, player_new);
+        totalSipsSync(totalSips, player_new);
+        syncPoints(points, player_new);
+
+    }
 }
 

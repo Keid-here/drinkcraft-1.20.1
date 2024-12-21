@@ -130,6 +130,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 		});
 
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+			System.out.println("joined, sync package out");
 			Drinkcraft.DRINKCRAFTOWOCHANNEL.clientHandle().send(new SyncAllPacket(new Identifier(MOD_ID, "drinkcraftowonet")));
 		});
 
@@ -152,6 +153,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 
 
 		//todo remove
+		/*
 		ClientPlayNetworking.registerGlobalReceiver(Drinkcraft.DIRT_BROKEN, (client, handler, buf, responseSender) -> {
 			int totalDirtBlocksBroken = buf.readInt();
 			int playerSpecificDirtBlocksBroken = buf.readInt();
@@ -182,6 +184,7 @@ public class DrinkcraftClient implements ClientModInitializer {
 				client.player.sendMessage(Text.literal("Sips left: " + playerData.sipsPending));
 			});
 		});
+		 */
 
 
 

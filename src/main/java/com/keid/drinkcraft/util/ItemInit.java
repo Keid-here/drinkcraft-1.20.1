@@ -16,4 +16,6 @@ public class ItemInit implements ItemRegistryContainer {
 
     public static final Item SUPERLUCKYTICKET = new SuperLuckyTicket();
 
+    public static final Item KYONETICSWORD = new KyoneticSword();
+
 }
