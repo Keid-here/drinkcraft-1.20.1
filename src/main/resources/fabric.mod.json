@@ -3,12 +3,12 @@
 	"id": "drinkcraft",
 	"version": "${version}",
 	"name": "Drinkcraft",
-	"description": "very early in development, nothing works sorry",
+	"description": "THE ONLY DRINKING GAME IN MINECRAFT. Also looks like it was coded by someone perpetually drunk",
 	"authors": [
 		"Keid :3"
 	],
 	"contact": {
-		"homepage": "https://cdn.betterttv.net/emote/645ec010d25028744b15a0cc/3x.webp",
+		"homepage": "https://www.youtube.com/watch?v=_hogn0qkYrs",
 		"sources": "https://github.com/Keid-here/drinkcraft-1.20.1"
 	},
 	"license": "CC0-1.0",
